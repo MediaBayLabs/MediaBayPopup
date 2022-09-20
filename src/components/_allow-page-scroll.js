@@ -6,7 +6,9 @@ MediaBayPopup.prototype.allowPageScroll = function() {
   // const otherPopups = Array.prototype.slice.call(document.querySelectorAll('.Popup'));
   const otherPopups = window.MediaBayPopups;
 
-  if (fakeScrollbar && otherPopups.every(function(el) {return !el.classList.contains(options.popupClass)})) {
+  console.log(otherPopups);
+
+  if (fakeScrollbar && otherPopups.every(el => !el.popup.classList.contains(options.popupClass))) {
     console.log('allowpagescroll');
     body.style.paddingRight = '';
     fakeScrollbar.classList.remove(options.fakeScrollbarClass);

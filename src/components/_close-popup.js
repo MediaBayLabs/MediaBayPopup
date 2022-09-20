@@ -22,6 +22,10 @@ MediaBayPopup.prototype.closePopup = function() {
 
 		popup.classList.remove(options.popupClass);
 
-	}	
+		if (options.popupId && location.hash.indexOf('#' + options.popupId) !== -1) {
+			history.replaceState(null, document.title, location.href.replace('#' + options.popupId, ''));
+  	}
+
+	}
 
 };

@@ -3,12 +3,12 @@
 Простой скрипт для создания всплывающих окон на сайте.  
 Преимущества:
 
-1. Events (init, beforeopen, open, beforeclose, close, destroy, reload).
-2. Methods (close, open, reload).
-3. Popup.caller.
+1. [Events](#events) (init, beforeopen, open, beforeclose, close, destroy, reload).
+2. [Methods](#methods) (close, open, reload).
+3. [Popup.caller](#caller)
 4. Transitions and Animations.
 5. Open by hash with page onload (site.com/#notice-popup).
-6. Cloe by ESC, click outside, close buttons and method.
+6. Close by ESC, click outside, close buttons and method.
 7. Disable page scroll when popup is open.
 8. Clear inputs when close popup.
 
@@ -52,13 +52,13 @@ body.no-scroll {
   transition: opacity 0.5s, visibility 0.5s;
   opacity: 0;
 
-  /* can change */
+  /* not required */
   z-index: 10;
   background-color: rgba(0,0,0,.7);
 }
 
 .popup-content {
-  /* can change */
+  /* not required */
   max-width: 320px;
   width: 100%;
   transition: transform .5s, opacity .5s;
@@ -73,7 +73,7 @@ body.no-scroll {
 }
 
 .popup.active > .popup-content {
-  /* can change */
+  /* not required */
   opacity: 1;
   transform: translateY(0);
 }
@@ -121,6 +121,8 @@ const popup = new MediaBayPopup(callbackPopup, {
 ```
 
 ## Настройки
+<div id="options"></div>
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 openButtons | Stirng, HTMLElement, Function | '' | description
@@ -133,6 +135,8 @@ bodyClass | String | 'no-scroll' | description
 popupId | String | '' | description
 
 ## События
+<div id="events"></div>
+
 `init` - срабатывает при инициализации окна.  
 `beforeopen` - срабатывает перед открытием окна, при нажатии на откр. кнопку.  
 `open` - если `transitions: true` или `animations: true`, событие сработает после окончания плавного открытия, иначе сработает мгновенно.  
@@ -142,6 +146,8 @@ popupId | String | '' | description
 `destroy` - сработает при отключении всех функций окна вручную.
 
 ## Методы
+<div id="methods"></div>
+
 ```javascript
 callbackPopup.open();    // открывает окно
 callbackPopup.close();   // закрывает окно
@@ -149,4 +155,15 @@ callbackPopup.update(); // обновление окна - ищет новые �
 callbackPopup.destroy(); // отключает все функции окна
 ```
 
+## Caller
+<div id="methods"></div>
+
+Если всплывающее окно было открыто с помощью кнопки, то свойство `caller` будет содержать ссылку на эту кнопку:
+```javascript
+const popup = new MediaBayPopup('.popup');
+
+console.log(popup.caller);
+```
+
 ## ToDo
++ Clear inputs when close popup

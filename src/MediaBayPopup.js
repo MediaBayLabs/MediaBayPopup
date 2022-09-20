@@ -309,7 +309,11 @@
 
 				popup.classList.remove(options.popupClass);
 
-			}	
+				if (options.popupId && location.hash.indexOf('#' + options.popupId) !== -1) {
+				history.replaceState(null, document.title, location.href.replace('#' + options.popupId, ''));
+	  	}
+
+			}
 
 		};
 	MediaBayPopup.prototype.allowPageScroll = function() {
@@ -319,7 +323,9 @@
 	  const body = document.body;
 	  const otherPopups = window.MediaBayPopups;
 
-		  if (fakeScrollbar && otherPopups.every(function(el) {return !el.classList.contains(options.popupClass)})) {
+		  console.log(otherPopups);
+
+		  if (fakeScrollbar && otherPopups.every(el => !el.popup.classList.contains(options.popupClass))) {
 	    console.log('allowpagescroll');
 	    body.style.paddingRight = '';
 	    fakeScrollbar.classList.remove(options.fakeScrollbarClass);
