@@ -122,6 +122,7 @@ const popup = new MediaBayPopup(callbackPopup, {
 
 ## Настройки
 Option | Type | Default | Description
+------ | ---- | ------- | -----------
 openButtons | Stirng, HTMLElement, Function | '' | description
 closeButtons | Stirng, HTMLElement, Function | '' | description
 transitions | Boolean | true | description
