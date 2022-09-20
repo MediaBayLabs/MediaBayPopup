@@ -1,8 +1,8 @@
-Popup.prototype.initEvents = function() {
+MediaBayPopup.prototype.initEvents = function() {
 
-	let _ = this,
-		openButtons = _.$openButtons,
-		closeButtons = _.$closeButtons;
+	const _ = this;
+	const openButtons = _.openButtons;
+	const closeButtons = _.closeButtons;
 
 	if (closeButtons) {
 		for (let i = 0; i < closeButtons.length; i++) {
@@ -16,7 +16,7 @@ Popup.prototype.initEvents = function() {
 		}
 	}
 
-	_.options.clickToClose && _.$popup.addEventListener('click', _.clickToClose);
+	_.options.clickToClose && _.popup.addEventListener('click', _.clickToClose);
 
 	_.options.escToClose && document.addEventListener('keyup', _.closePopupHandler);
 

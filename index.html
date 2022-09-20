@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="./src/style.css">
-	<title>SimplePopup</title>
+	<title>MediaBayPopup</title>
 </head>
 <body>
 	<div class="example">
@@ -13,7 +13,7 @@
 		<button type="button" class="open-popup-another-btn" title="Открыть окно 1"><span>.open-popup-another-btn</span></button>
 	</div>
 	<div class="example">
-		<button type="button" class="open-popup-btn-two">Открыть окно (1(2))</button>
+		<button type="button" class="open-popup-btn-two" id="open-popup-two">Открыть окно 2</button>
 	</div>
 	<div class="popup" style="display:none">
 		<div class="popup-content">
@@ -26,7 +26,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="popup two" style="display:none">
+	<div class="popup two" id="popup-two" style="display:none">
 		<div class="popup-content">
 			<button type="button" class="popup-close-btn close-two">&#10006;</button>
 			<b class="popup-title">Всплывающее окно 2</b>
@@ -39,18 +39,25 @@
 	</div>
 	<div class="overlay"></div>
 	<div id="fake-scrollbar"></div>
-	<script src="./dist/Popup.min.js"></script>
-	<!-- <script src="./src/Popup.js"></script> -->
+	<!-- <script src="./dist/MediaBayPopup.min.js"></script> -->
+	<script src="./src/MediaBayPopup.js"></script>
 <script>
 	let firstPopup;
 document.addEventListener('DOMContentLoaded', function() {
 
-	firstPopup = new Popup('.popup', {
+	firstPopup = new MediaBayPopup('.popup', {
 		openButtons: '.open-popup-btn, .open-popup-another-btn',
-		// clickToClose: false,
-		// escToClose: false
 		closeButtons: '.popup-close-btn'
 	});
+
+	const secondPopupElement = document.getElementById('popup-two');
+
+	secondPopup = new MediaBayPopup(secondPopupElement, {
+		openButtons: '#open-popup-two',
+		closeButtons: secondPopupElement.querySelectorAll('.close-two'),
+		popupId: 'popup-two'
+	});
+
 
 	console.log(firstPopup);
 });

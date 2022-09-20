@@ -4,11 +4,11 @@
 	} else if (typeof exports === "object") {
 		module.exports = factory();
 	} else {
-		window.Popup = factory();
+		window.MediaBayPopup = factory();
 	}
 })(function() {
 
-	let Popup = function(selector, options) {
+	let MediaBayPopup = function(selector, options) {
 		let _ = this,
 			assign = function(inserted, obj) {
 				for (let key in inserted) {
@@ -27,54 +27,60 @@
 			popupClass: 'active',
 			bodyClass: 'no-scroll',
 			fakeScrollbarClass: 'active',
-			mainPopupClass: 'Popup',
+			mainPopupClass: 'MediaBayPopup',
 			clickToClose: true,
 			escToClose: true,
 			allowPageScroll: false,
 			transitions: true,
 			animations: false,
-			fakeScrollbar: '#fake-scrollbar'
+			fakeScrollbar: '#fake-scrollbar',
+			popupId: ''
 		};
 
-		// _.$popup = null;
-		// _.$closeButtons = null;
-		// _.$openButtons = null;
-		// _.$fakeScrollbar = null;
-		// _.$caller = null;
+		// _.popup = null;
+		// _.closeButtons = null;
+		// _.openButtons = null;
+		// _.fakeScrollbar = null;
+		// _.caller = null;
 
 		assign(_.defaults, _.options);
 
 		_.init();
 
+		if (window.MediaBayPopups) {
+			window.MediaBayPopups[window.MediaBayPopups.length] = _;
+		} else {
+			window.MediaBayPopups = [_];
+		}
+
 		console.log(_);
-		return _.$popup;
+		return _.popup;
 	};
 
-	Popup.prototype.dispatchEvent = function(element, eventName) {
+	MediaBayPopup.prototype.dispatchEvent = function(element, eventName) {
 		if (typeof window.CustomEvent === 'function') {
-	  	let evt = new CustomEvent(eventName);
+	  	const evt = new CustomEvent(eventName);
 	  	element.dispatchEvent(evt);
 		}	
 	};
 
-	Popup.prototype.refresh = function() {
-		let _ = this.ctx || this;
-		console.log('popuprefresh');
+	MediaBayPopup.prototype.update = function() {
+		const _ = this.ctx || this;
+		console.log('update');
 		_.destroy();
 		_.init(_.selector);
 	};
 
-
-	Popup.prototype.destroy = function() {
-		let _ = this.ctx || this,
-			popup = _.$popup,
-			openButtons = _.$openButtons,
-			closeButtons = _.$closeButtons;
+	MediaBayPopup.prototype.destroy = function() {
+		const _ = this.ctx || this;
+		const popup = _.popup;
+		const openButtons = _.openButtons;
+		const closeButtons = _.closeButtons;
 
 		if (popup) {
 			popup.classList.remove(_.options.mainPopupClass);
 			popup.removeEventListener(_.endEvent, _.transitionEnd);
-			popup.removeEventListener('click', _.clickToClose);
+			popup.removeEventListener('click', _.closeByClick);
 
 			document.removeEventListener('keyup', _.closePopupHandler);
 
@@ -91,23 +97,23 @@
 			}
 		}
 
-		// _.$popup = null;
-		// _.$closeButtons = null;
-		// _.$openButtons = null;
-		// _.$fakeScrollbar = null;
-		// _.$caller = null;
+		// _.popup = null;
+		// _.closeButtons = null;
+		// _.openButtons = null;
+		// _.fakeScrollbar = null;
+		// _.caller = null;
 
-		console.log('popupdestroy');
+		console.log('destroy');
 
 	};
 
 	//=require _init.js
-	//=require _initEvents.js
-	//=require _transitionEnd.js
-	//=require _clickToClose.js
-	//=require _openPopup.js
-	//=require _closePopup.js
-	//=require _allowPageScroll.js
+	//=require _init-events.js
+	//=require _transition-end.js
+	//=require _close-by-click.js
+	//=require _open-popup.js
+	//=require _close-popup.js
+	//=require _allow-page-scroll.js
 
-	return Popup;
+	return MediaBayPopup;
 });

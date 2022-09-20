@@ -1,33 +1,32 @@
-const gulp = require('gulp'),
-  include = require('gulp-include'),
-  rename = require('gulp-rename'),
-  uglify = require('gulp-uglify-es').default,
-  removelogging = require('gulp-remove-logging'),
-  strip = require('gulp-strip-comments');
+const { src, dest, task, watch } = require('gulp');
+const include = require('gulp-include');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify-es').default;
+const removelogging = require('gulp-remove-logging');
+const strip = require('gulp-strip-comments');
 
-gulp.task('default', () => gulp.watch('./src/components/**/*.js', watchJs));
+task('default', () => watch('./src/components/**/*.js', watchJs));
 
+function watchJs(cb) {
+  src('./src/components/**/*.js', { dot: true, ignore: './src/components/**/_*.js' })
+    .pipe(include()).on('error', console.log)
+    .pipe(strip())
+    .pipe(dest('./src/.'));
 
-function watchJs(done) {
-	gulp.src('./src/components/**/*.js', {dot: true, ignore: './src/components/**/_*.js'})
-			.pipe(include()).on('error', console.log)
-			.pipe(strip())
-			.pipe(gulp.dest('./src/.'));
-
-	done();
+  cb();
 }
 
-gulp.task('move', moveJs);
+task('move', moveJs);
 
-function moveJs(done) {
-	gulp.src('./src/*.js', {dot: true, ignore: '/*.min.js'})
-	  .pipe(removelogging())
+function moveJs(cb) {
+  src('./src/*.js', { dot: true, ignore: '/*.min.js' })
+    .pipe(removelogging())
     .pipe(strip())
-	  .pipe(uglify())
-		.pipe(rename(path => path.basename += '.min'))
-	  .pipe(gulp.dest('./dist/'));
+    .pipe(uglify())
+    .pipe(rename(path => path.basename += '.min'))
+    .pipe(dest('./dist/'));
 
-	// gulp.src('./src/js/*.min.js', {read: false})
-	// 	.pipe(gulp.dest('./dist/js/'));
-	done();
+  // src('./src/js/*.min.js', {read: false})
+  // 	.pipe(dest('./dist/js/'));
+  cb();
 }

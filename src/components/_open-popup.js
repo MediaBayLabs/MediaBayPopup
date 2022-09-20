@@ -1,13 +1,13 @@
-Popup.prototype.openPopup = function() {
-	let _ = this.ctx || this,
-		options = _.options,
-		fakeScrollbar = _.$fakeScrollbar,
-		body = document.body,
-		popup = _.$popup;
+MediaBayPopup.prototype.openPopup = function() {
+	const _ = this.ctx || this;
+	const options = _.options;
+	const fakeScrollbar = _.fakeScrollbar;
+	const body = document.body;
+	const popup = _.popup;
 
 	if (!popup.classList.contains(options.popupClass)) {
 		if (event && event.type === 'click') {
-			_.$caller = popup.caller = event.target;
+			_.caller = popup.caller = event.target;
 		}
 
 		// if (popup.style.display === 'none') {
@@ -16,13 +16,13 @@ Popup.prototype.openPopup = function() {
 		// }	
 
 		_.action = 'open';
-		_.dispatchEvent(popup, 'popupbeforeopen');
-		console.log('popupbeforeopen');
+		_.dispatchEvent(popup, 'beforeopen');
+		console.log('beforeopen');
 
 		if (_.endEvent) {
 			popup.addEventListener(_.endEvent, _.transitionEnd);
 		} else {
-			_.dispatchEvent(popup, 'popupopen');
+			_.dispatchEvent(popup, 'open');
 		}
 
 		popup.classList.add(options.popupClass);
